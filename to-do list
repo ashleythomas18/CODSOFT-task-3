@@ -1,0 +1,88 @@
+#include <iostream>
+#include <string>
+using namespace std;
+void addElements(string arr[50], int& x){
+    cout<<"Enter the number of tasks to be completed by you: ";
+    cin>>x;
+    cin.ignore();
+    if(x==0){
+        cout<<"empty list";
+    }
+    else{
+        for(int i=0;i<x;i++){
+            getline(cin,arr[i]);
+        }
+    }
+    cout<<"the to-do list is:\n";
+    for (int i = 0; i < x; i++) {
+            cout << arr[i] << ":task pending"<<endl;
+    }
+}
+void markTasksCompleted(string arr[], int size, int indices[], int numIndices) {
+    for (int i = 0; i < numIndices;i++) {
+        int index = indices[i];
+        if (index >= 0 && index < size) {
+            arr[index] += " :task completed";
+        } else {
+            cout << "Invalid index " << index << ". Task not marked as completed." << endl;
+        }
+    }
+}
+void removeTask(string arr[], int& size, int index) {
+    if (index >= 0 && index < size) {
+        for (int i = index; i < size - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        size--;
+        cout << "Task at index " << index << " removed successfully." << endl;
+    }
+}
+int main(){
+    string arr[50];
+    int size;
+    int x;
+    addElements(arr, x);
+    int choice;
+    cout << "What operation would you like to perform in your to-do list?" << endl;
+    cout << "1. Add new tasks" << endl;
+    cout << "2. Mark tasks as completed" << endl;
+    cout << "3. Remove a task" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+    switch(choice) {
+        case 1:
+            addElements(arr, x);
+            break;
+        case 2:
+            int n;
+        cout << "\nHow many tasks do you want to mark as completed? ";
+        cin >> n;
+        int completedIndices[50];
+        cout << "Enter the indices of the tasks to mark as completed (0-based): ";
+        for (int i = 0; i < n; ++i) {
+            cin >> completedIndices[i];
+        }
+        markTasksCompleted(arr, x, completedIndices, n);
+
+        cout << "\nUpdated List:\n";
+        for (int i = 0; i < x; ++i) {
+            cout << arr[i] << endl;
+        }
+        break;
+        case 3:
+        int removeIndex;
+        cout << "\nEnter the index of the task you want to remove: ";
+        cin >> removeIndex;
+        removeTask(arr, x, removeIndex);
+
+        cout << "\nUpdated list after removing completed tasks:\n";
+        for (int i = 0; i < x; ++i) {
+            cout << arr[i] << endl;
+        }
+        break;
+        default:
+            cout << "Invalid choice. Please enter a valid option." << endl;
+    }
+
+    return 0;
+}
